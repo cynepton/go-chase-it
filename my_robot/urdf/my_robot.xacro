@@ -4,20 +4,20 @@
   <!--Import Plugins-->
   <xacro:include filename="$(find my_robot)/urdf/my_robot.gazebo" />
   
-  <!--Link (robot_footprint)-->
+  <!--Link: robot_footprint-->
   <link name="robot_footprint"></link>
 
-  <!--Joint (robot_footprint)-->
+  <!--Joint: robot_footprint & chassis-->
   <joint name="robot_footprint_joint" type="fixed">
     <origin xyz="0 0 0" rpy="0 0 0" />
     <parent link="robot_footprint"/>
     <child link="chassis" />
   </joint>
   
-  <!--Link (chasiss)-->
+  <!--Link: chasiss-->
   <link name="chassis">
     <pose>0 0 0.1 0 0 0</pose>
-    
+    <!--inertial values-->
     <inertial>
       <mass value="15"/>
       <origin xyz="0 0 0" rpy="0 0 0"/>
@@ -27,13 +27,13 @@
           izz="0.390625"  
       />
     </inertial>
-    
+    <!--collision values-->
     <collision name="chassis_collision">
       <geometry>
         <box size="0.5 0.25 0.07"/>
       </geometry>
     </collision>
-    
+    <!--visual values-->
     <visual name='chassis_visual'>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
@@ -41,7 +41,7 @@
       </geometry>
     </visual>
     
-    <!--front caster-->
+    <!--front caster wheel-->
     <collision name="front_caster_collision">
       <origin xyz="0.35 0 -0.05" rpy=" 0 0 0"/>
       <geometry>
@@ -57,25 +57,26 @@
     </visual>
   </link>
   
-  <!--Link (left_wheel)-->  
+  <!--Link: left_wheel-->  
   <link name='left_wheel'>    
     <inertial>
       <mass value="5"/>
       <origin xyz="0 0 0" rpy="0 1.5707 1.5707" />
+      <!--inertial values-->
       <inertia
           ixx="0.01354166666" ixy="0" ixz="0"
           iyy="0.01354166666" iyz="0"
           izz="0.025"
       />
     </inertial>
-    
+    <!--collision values-->
     <collision name='left_wheel_collision'>
       <origin  xyz="0 0 0" rpy="0 1.5707 1.5707"/>
       <geometry>
         <cylinder length="0.05" radius="0.1"/>
       </geometry>
     </collision>
-    
+    <!--visual values-->
     <visual name='left_wheel_visual'>
       <origin xyz="0 0 0" rpy="0 1.5707 1.5707"/>
       <geometry>
@@ -84,8 +85,36 @@
     </visual>
     
   </link>
+
+  <!--Link: right_wheel-->
+  <link name="right_wheel">    
+    <!--inertial values-->
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 1.5707 1.5707" />
+      <mass value="5"/>
+      <inertia
+          ixx="0.01354166666" ixy="0" ixz="0"
+          iyy="0.01354166666" iyz="0"
+          izz="0.025"
+      />
+    </inertial>
+    <!--collision values-->
+    <collision name="right_wheel_collision">
+      <origin xyz="0 0 0" rpy="0 1.5707 1.5707"/>
+      <geometry>
+        <cylinder length="0.05" radius="0.1"/>
+      </geometry>
+    </collision>
+    <!--visual values-->
+    <visual name="right_wheel_visual">
+      <origin xyz="0 0 0" rpy="0 1.5707 1.5707"/>
+      <geometry>
+        <cylinder length="0.05" radius="0.1"/>
+      </geometry>      
+    </visual>  
+  </link>
     
-  <!--Joint (left_wheel_hinge)-->
+  <!--Joint: left_wheel_hinge & chassis -->
   <joint name="left_wheel_hinge" type="continuous">
     <origin xyz="-0.05 0.15 0" rpy="0 0 0"/>
     <child link="left_wheel" />
@@ -95,34 +124,9 @@
     <joint_properties damping="1.0" friction="1.0" />
   </joint>  
     
-  <!--Link (right_wheel)-->
-  <link name="right_wheel">    
-    <inertial>
-      <origin xyz="0 0 0" rpy="0 1.5707 1.5707" />
-      <mass value="5"/>
-      <inertia
-          ixx="0.01354166666" ixy="0" ixz="0"
-          iyy="0.01354166666" iyz="0"
-          izz="0.025"
-      />
-    </inertial>
+  
     
-    <collision name="right_wheel_collision">
-      <origin xyz="0 0 0" rpy="0 1.5707 1.5707"/>
-      <geometry>
-        <cylinder length="0.05" radius="0.1"/>
-      </geometry>
-    </collision>
-    
-    <visual name="right_wheel_visual">
-      <origin xyz="0 0 0" rpy="0 1.5707 1.5707"/>
-      <geometry>
-        <cylinder length="0.05" radius="0.1"/>
-      </geometry>      
-    </visual>  
-  </link>
-    
-  <!--Joint (right_wheel_hinge)-->
+  <!--Joint: right_wheel_hinge & chassis -->
   <joint name="right_wheel_hinge" type="continuous">
     <origin xyz="-0.05 -0.15 0" rpy="0 0 0"/>
     <child link="right_wheel" />
@@ -132,8 +136,9 @@
     <joint_properties damping="1.0" friction="1.0" />
   </joint>
 
-  <!--Link (camera)-->
+  <!--Link: camera-->
   <link name='camera'>
+    <!--inertial values-->
     <inertial>
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <mass value="0.1"/>
@@ -144,14 +149,14 @@
           izz="1e-6"
       />
     </inertial>
-
+    <!--visual values-->
     <visual name='camera_visual'>
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
         <box size=".05 .05 .05"/>
       </geometry>
     </visual>
-
+    <!--collision values-->
     <collision name='camera_collision'>
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
@@ -160,7 +165,7 @@
     </collision>
   </link>
 
-  <!--Joint (camera)-->
+  <!--Joint: camera-->
   <joint type="fixed" name="camera_joint">
     <origin xyz="0.25 0 0" rpy="0 0 0"/>
     <child link="camera"/>
@@ -168,8 +173,9 @@
     <axis xyz="0 1 0"/>
   </joint>
 
-  <!--Links (hokuyo)-->
+  <!--Links: hokuyo lidar -->
   <link name='hokuyo'>
+    <!--inertial values-->
     <inertial>
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <mass value="1e-5"/>
@@ -179,14 +185,14 @@
           izz="1e-6"
       />
     </inertial>
-
+    <!--visual values-->
     <visual name='hokuyo_visual'>
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
         <mesh filename="package://my_robot/meshes/hokuyo.dae"/>
       </geometry>
     </visual>
-
+    <!--collision values-->
     <collision name='hokuyo_collision'>
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
@@ -195,7 +201,7 @@
     </collision>
   </link>
 
-  <!--Joint (hokuyo)-->
+  <!--Joint: hokuyo lidar & chassis-->
   <joint type="fixed" name="hokuyo_joint">
     <origin xyz="0.2 0 .07" rpy="0 0 0"/>
     <child link="hokuyo"/>
@@ -203,25 +209,25 @@
     <axis xyz="0 1 0"/>
   </joint>
 
-  <!--give your robot some color-->
+  <!--robot colours-->
   <gazebo reference="chassis">
     <material>Gazebo/Yellow</material>
   </gazebo>
 
   <gazebo reference="left_wheel">
-    <material>Gazebo/Blue</material>
+    <material>Gazebo/Black</material>
   </gazebo>
 
   <gazebo reference="right_wheel">
-    <material>Gazebo/Blue</material>
+    <material>Gazebo/Black</material>
   </gazebo>
 
   <gazebo reference="camera">
-    <material>Gazebo/Red</material>
+    <material>Gazebo/Green</material>
   </gazebo>
 
   <gazebo reference="hokuyo">
-    <material>Gazebo/Black</material>
+    <material>Gazebo/Yellow</material>
   </gazebo>    
   
 </robot>
